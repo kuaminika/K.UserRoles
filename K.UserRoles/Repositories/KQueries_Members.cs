@@ -13,6 +13,7 @@ namespace K.UserRoles.Repositories
                                             INNER JOIN `KAccessInRole` `ka` on `k`.`id` = `ka`.`access_id`
                                             "; }
         public string InsertQuery { get; internal set; }
+        public string UpdateQuery { get; internal set; }
     }
 
     public class KQueries_Members

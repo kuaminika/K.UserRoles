@@ -38,7 +38,17 @@ namespace K.UserRoles.Repositories
 
         public IKAccess GetById(int id)
         {
-            throw new NotImplementedException();
+            string query = queryHolder.GetAllQuery;
+
+            List<KAccess_recorded> rawRecords = dbGateway.ExecuteReadTransaction(query, new KAccess_recorded() { Id = id});
+
+            if (rawRecords.Count == 0)
+                return new KAccess_recorded { Id = 0, Name = "Not found", Description = "No access found" };
+
+
+            List<IKAccess> result = rawRecords.ConvertAll(new Converter<KAccess_recorded, IKAccess>(p => p));
+
+            return result[0];
         }
 
         public IKAccess Record(IKAccess newRecord)
@@ -50,9 +60,21 @@ namespace K.UserRoles.Repositories
             return newAccess;
         }
 
+        KAccess_recorded ensureType(IKAccess a)
+        {
+            if (a as KAccess_recorded != null) return (KAccess_recorded)a;
+
+            var result = new KAccess_recorded { Description = a.Description, Name = a.Name };
+            return result;
+        }
+
+
         public int UpdateRecord(IKAccess first)
         {
-            throw new NotImplementedException();
+            KAccess_recorded victim = ensureType(first);
+            string updateQuery = queryHolder.UpdateQuery;
+            int affectedRows = dbGateway.ExecuteWriteTransaction(updateQuery, victim);
+            return affectedRows;
         }
     }
 }

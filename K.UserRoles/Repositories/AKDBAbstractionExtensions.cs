@@ -8,6 +8,7 @@ using KDBAbstractions.Repository.interfaces;
 
 namespace K.UserRoles.Repositories
 {
+    
     public static class AKDBAbstractionExtensions
     {
         public static int ExecuteInsertTransaction<T>( this AKDBAbstraction abstraction,string query, T newRecord)
@@ -21,7 +22,13 @@ namespace K.UserRoles.Repositories
             return result;
         }
 
-
+        public static int ExecuteWriteTransaction<T>(this AKDBAbstraction abstraction, string query, T newRecord)
+        {
+            MySqlConnection conn = new MySqlConnection(abstraction.ConnectionString);
+            query = $@"{query} ; ";
+            int result = conn.Execute(query, newRecord);
+            return result;
+        }
         public static List<T> ExecuteReadTransaction<T>(this AKDBAbstraction abstraction, string query, T QueryObj)
         {
             try
@@ -36,7 +43,6 @@ namespace K.UserRoles.Repositories
                 throw ex;
             }
         }
-
 
         public static T GetQueryHolder<T>(this AKDBAbstraction abstraction )
         {

@@ -31,6 +31,7 @@ namespace K.UserRoles.Repositories
 
         public List<KMember_interface> GetAll(int org_id = 0, string sortby = "id")
         {
+            
 
             KQueries_Members queryHolder = dbGateway.GetQueryHolder<KQueries_Members>();
             KMember_Data queryObj = new KMember_Data();

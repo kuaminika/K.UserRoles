@@ -6,55 +6,36 @@ using K.UserRoles.Models;
 using KDBAbstractions.Repository.interfaces;
 using KDBAbstractions.Repository;
 using System.Collections.Generic;
-using System;
 
 namespace K.UserRoles.Test
 {
 
-    public class TestMemberAccessRepo
+    public class TestRoleInOrgRepo
     {
 
-        IKRepository<IKAccess> repo;
+        IKRepository<KRoleInOrgn_interface> repo;
+
         [SetUp]
-        public void SetUp()
+        public void Setup()
         {
             IConfiguration configuration = new ConfigurationBuilder()
-                 .AddJsonFile("appsettings.json")
-                 .Build();
+                        .AddJsonFile("appsettings.json")
+                        .Build();
 
             IKRepoConfig kRepoConfig = KRepoConfig.New(configuration);
 
 
-            var kRepoFactory = KRepoFactories.Get<KFactory_AccessRepo>(kRepoConfig);
-            repo = kRepoFactory.Create<IKAccess>();
+            KRepoFactory_Abstract kRepoFactory = KRepoFactories.Get<KFactory_RoleInOrgRepo>(kRepoConfig);
+            repo = kRepoFactory.Create<KRoleInOrgn_interface>();
         }
 
-        [Test]
-        public void TestFetchingAllAccess()
-        {
-            try
-            {
-                List<IKAccess> kAccesses = repo.GetAll();
-            }
-            catch (Exception ex)
-            {
-
-                string err = ex.Message;
-                if (ex.InnerException != null)
-                    err = $@"{err}
-                                {ex.InnerException.Message}";
 
 
-
-                Assert.Fail(err);
-            }
-            
-        }
 
     }
     public class TestKMemberRepo
     {
-        IKRepository<KMember_interface> kMemberRepository; 
+        IKRepository<KMember_interface> repo; 
 
         [SetUp]
         public void Setup()
@@ -67,7 +48,7 @@ namespace K.UserRoles.Test
 
 
             KRepoFactory_Abstract kRepoFactory = KRepoFactories.Get<KFactory_MemberRepo>(kRepoConfig);
-            kMemberRepository = kRepoFactory.Create<KMember_interface>();
+            repo = kRepoFactory.Create<KMember_interface>();
 
 
         }
@@ -77,7 +58,7 @@ namespace K.UserRoles.Test
         {
             try
             {
-                kMemberRepository.GetAll();
+                repo.GetAll();
             }
             catch (System.Exception ex)
             {
@@ -104,15 +85,15 @@ namespace K.UserRoles.Test
                 org.Id = 2;
                 org.Name = "Test";
 
-                List<KMember_interface> allMembers = kMemberRepository.GetAll(org.Id);
+                List<KMember_interface> allMembers = repo.GetAll(org.Id);
                 int countBefore = allMembers.Count;
 
                 int row_id = countBefore + 1;
 
                 KMember_new newMember = new KMember_new() { Email = $"test{row_id}@{GetType().FullName}", Name = $"Test{row_id}", Org = org };
 
-                kMemberRepository.Record(newMember);
-                allMembers = kMemberRepository.GetAll(org.Id);
+                repo.Record(newMember);
+                allMembers = repo.GetAll(org.Id);
 
                 int countAfter = allMembers.Count;
 

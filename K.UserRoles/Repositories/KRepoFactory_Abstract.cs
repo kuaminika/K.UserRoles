@@ -9,6 +9,12 @@ namespace K.UserRoles.Repositories
         {
             this.dbAbstraction = dbAbstraction;
         }
+
+        public virtual IKReadRepo<T> CreateReadRepo<T>()
+        {
+           return new NoReadRepo<T>();
+        }
+
         public abstract IKRepository<T> Create<T>();
     }
 }

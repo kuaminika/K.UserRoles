@@ -1,4 +1,5 @@
-﻿using KDBAbstractions.Repository.interfaces;
+﻿using K.UserRoles.Models;
+using KDBAbstractions.Repository.interfaces;
 namespace K.UserRoles.Repositories
 {
     public class KFactory_MemberRepo : KRepoFactory_Abstract
@@ -13,4 +14,5 @@ namespace K.UserRoles.Repositories
 
         }
     }
+
 }
