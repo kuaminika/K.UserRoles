@@ -6,13 +6,13 @@ using System.Collections.Generic;
 namespace K.UserRoles.Repositories
 {
 
-   
 
-    public class KMemberRepository : IKRepository<KMember_interface>
+
+    public class Repository_KMember : IKRepository<KMember_interface>
     {
         private AKDBAbstraction dbGateway;
 
-        public KMemberRepository(AKDBAbstraction dbGateway)
+        public Repository_KMember(AKDBAbstraction dbGateway)
         {
             this.dbGateway = dbGateway;
 

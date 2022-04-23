@@ -6,9 +6,52 @@ using K.UserRoles.Models;
 using KDBAbstractions.Repository.interfaces;
 using KDBAbstractions.Repository;
 using System.Collections.Generic;
+using System;
 
 namespace K.UserRoles.Test
 {
+
+    public class TestMemberAccessRepo
+    {
+
+        IKRepository<IKAccess> repo;
+        [SetUp]
+        public void SetUp()
+        {
+            IConfiguration configuration = new ConfigurationBuilder()
+                 .AddJsonFile("appsettings.json")
+                 .Build();
+
+            IKRepoConfig kRepoConfig = KRepoConfig.New(configuration);
+
+
+            var kRepoFactory = KRepoFactories.Get<KFactory_AccessRepo>(kRepoConfig);
+            repo = kRepoFactory.Create<IKAccess>();
+        }
+
+        [Test]
+        public void TestFetchingAllAccess()
+        {
+            try
+            {
+                List<IKAccess> kAccesses = repo.GetAll();
+            }
+            catch (Exception ex)
+            {
+
+                string err = ex.Message;
+                if (ex.InnerException != null)
+                    err = $@"{err}
+                                {ex.InnerException.Message}";
+
+
+
+                Assert.Fail(err);
+            }
+            
+        }
+
+    }
     public class TestKMemberRepo
     {
         IKRepository<KMember_interface> kMemberRepository; 
@@ -23,8 +66,8 @@ namespace K.UserRoles.Test
              IKRepoConfig kRepoConfig =  KRepoConfig.New(configuration);
 
 
-             KRepoFactory kRepoFactory = KRepoFactory.New(kRepoConfig); 
-             kMemberRepository = kRepoFactory.CreateKMemberRepository;
+            KRepoFactory_Abstract kRepoFactory = KRepoFactories.Get<KFactory_MemberRepo>(kRepoConfig);
+            kMemberRepository = kRepoFactory.Create<KMember_interface>();
 
 
         }

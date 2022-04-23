@@ -1,39 +1,26 @@
 ﻿using K.UserRoles.Models;
 using KDBAbstractions.Repository;
 using KDBAbstractions.Repository.interfaces;
+using System;
 
 namespace K.UserRoles.Repositories
 {
-    public class KRepoFactory
+
+
+    public class KRepoFactories
     {
 
 
-        public static KRepoFactory New(IKRepoConfig kRepoConfig)
+        public static KRepoFactory_Abstract Get<T>(IKRepoConfig kRepoConfig)
         {
 
             string connString = kRepoConfig.GetConnectionString("default");
+            
+
             AKDBAbstraction dbAbstraction = new KMysql_KDBAbstraction(connString);
-            var result = new KRepoFactory(dbAbstraction);
-            return result;
+            var result = Activator.CreateInstance(typeof(T), dbAbstraction); // new KRepoFactory(dbAbstraction);
+            return (KRepoFactory_Abstract)result;
 
-        }
-        AKDBAbstraction dbAbstraction;
-
-
-        public IKRepository<KMember_interface> CreateKMemberRepository
-        {
-            get
-            {
-
-                IKRepository < KMember_interface >  result =  new KMemberRepository(this.dbAbstraction);
-                return result;
-
-            }
-        }
-
-        public KRepoFactory(AKDBAbstraction dbAbstraction)
-        {
-            this.dbAbstraction = dbAbstraction;
         }
 
     }

@@ -13,7 +13,7 @@ namespace K.UserRoles.Repositories
     {
         private IConfiguration configuration;
 
-        public static IKRepoConfig New(Microsoft.Extensions.Configuration.IConfiguration configuration)
+        public static IKRepoConfig New( IConfiguration configuration)
         {
             var result = new KRepoConfig(configuration);
             return result;

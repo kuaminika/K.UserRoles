@@ -2,6 +2,19 @@
 
 namespace K.UserRoles.Repositories
 {
+
+    public class KQueries_Access
+    {
+        public string GetAllQuery { get => @"SELECT `k`.`id`             `Id`
+                                                , `ka`.`roleInOrg_id`	 `RoleId`
+                                                , `k`.`name`             `Name`
+                                                , `k`.`description`      `Description`
+                                            FROM `KAccess` `k`
+                                            INNER JOIN `KAccessInRole` `ka` on `k`.`id` = `ka`.`access_id`
+                                            "; }
+        public string InsertQuery { get; internal set; }
+    }
+
     public class KQueries_Members
     {
         public string GenericSearch
