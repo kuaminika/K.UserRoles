@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "K.UserRoles", "K.UserRoles\K.UserRoles.csproj", "{AE337235-A637-40C8-B451-CAF326511172}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K.UserRoles", "K.UserRoles\K.UserRoles.csproj", "{AE337235-A637-40C8-B451-CAF326511172}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "K.UserRoles.Test", "K.UserRoles.Test\K.UserRoles.Test.csproj", "{59DF4B54-7139-4CAE-8F28-D4E6029BD909}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "K.UserRoles.Test", "K.UserRoles.Test\K.UserRoles.Test.csproj", "{59DF4B54-7139-4CAE-8F28-D4E6029BD909}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -29,8 +29,11 @@ namespace K.UserRoles.Test
             repo = kRepoFactory.Create<KRoleInOrgn_interface>();
         }
 
-
-
+        [Test]
+        public void TestFetchAllRoles()
+        {
+            repo.GetAll();
+        }
 
     }
     public class TestKMemberRepo

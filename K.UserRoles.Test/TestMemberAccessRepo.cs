@@ -12,6 +12,7 @@ namespace K.UserRoles.Test
     {
 
         IKRepository<IKAccess> repo;
+        IKReadRepo<KRoleInOrgn_interface> roleRepo;
         [SetUp]
         public void SetUp()
         {
@@ -23,7 +24,10 @@ namespace K.UserRoles.Test
 
 
             var kRepoFactory = KRepoFactories.Get<KFactory_AccessRepo>(kRepoConfig);
+            var kRoleRepoFactory = KRepoFactories.Get<KFactory_RoleInOrgRepo>(kRepoConfig);
             repo = kRepoFactory.Create<IKAccess>();
+
+            roleRepo = kRoleRepoFactory.CreateReadRepo<KRoleInOrgn_interface>();
         }
 
         [Test]
@@ -46,6 +50,23 @@ namespace K.UserRoles.Test
                 Assert.Fail(err);
             }
             
+        }
+
+        [Test]
+        public void TestAddingMember()
+        {
+            KRoleInOrgn_recorded defaultRoleInDB = new KRoleInOrgn_recorded { Id = 0 };
+
+            KAccess_new access = new KAccess_new { RoleId = defaultRoleInDB.Id, Name = "fakeAccess", Description = "this is just to test so its fake" };
+
+            var all = repo.GetAll();
+            int countBefore = all.Count;
+            repo.Record(access);
+            all = repo.GetAll();
+            int countAfter = all.Count;
+            Assert.Greater(countAfter, countBefore);
+
+
         }
 
     }

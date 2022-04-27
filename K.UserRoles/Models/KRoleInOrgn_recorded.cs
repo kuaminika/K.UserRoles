@@ -5,7 +5,7 @@
      
         public int Id { get; set; }
         public string UId { get => Id.ToString(); set => Id = int.Parse(value); }
-        public KOrgn_recorded Org { get; set; }
+        public virtual KOrgn_recorded Org { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public bool Clean { get; set; }

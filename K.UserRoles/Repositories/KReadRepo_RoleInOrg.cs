@@ -14,11 +14,12 @@ namespace K.UserRoles.Repositories
             this.dbAbstraction = dbAbstraction;
             this.queryHolder = dbAbstraction.GetQueryHolder<KQueries_RoleInOrg>();
         }
-        KRoleInOrgn_recorded ensureType (KRoleInOrgn_interface queryObj)
+        KRoleInOrgn_Data ensureType (KRoleInOrgn_interface queryObj)
         {
-            if ((queryObj as KRoleInOrgn_recorded) != null) return (KRoleInOrgn_recorded)queryObj;
+            if ((queryObj as KRoleInOrgn_Data) != null) return (KRoleInOrgn_Data)queryObj;
 
-            KRoleInOrgn_recorded result = new KRoleInOrgn_recorded { 
+            KRoleInOrgn_Data result = new KRoleInOrgn_Data
+            { 
                 Clean= true,
                 Description = queryObj.Description,
                 Name = queryObj.Name,
@@ -33,9 +34,10 @@ namespace K.UserRoles.Repositories
             string queryStr = queryHolder.Search;
 
             var qObj = ensureType(queryObj);
-            List< KRoleInOrgn_recorded> rawRecords =  dbAbstraction.ExecuteReadTransaction(queryStr, qObj);
+            //queryStr = queryHolder.SearchBadPractice(qObj);
+            List<KRoleInOrgn_Data> rawRecords =  dbAbstraction.ExecuteReadTransaction(queryStr, qObj);
 
-            List<KRoleInOrgn_interface> result = rawRecords.ConvertAll(new Converter<KRoleInOrgn_recorded, KRoleInOrgn_interface>(p => p));
+            List<KRoleInOrgn_interface> result = rawRecords.ConvertAll(new Converter<KRoleInOrgn_Data, KRoleInOrgn_interface>(p => p));
             return result;
         }
     }

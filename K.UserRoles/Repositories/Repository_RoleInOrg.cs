@@ -31,8 +31,9 @@ namespace K.UserRoles.Repositories
 
         public List<KRoleInOrgn_interface> GetAll(int org_id = 0, string sortby = "id")
         {
-          var query =  new KRoleInOrgn_recorded();
-            query.Org.Id = org_id;
+          var query =  new KRoleInOrgn_Data();
+
+            query.OrgId = org_id;
             var result = searcher.Get(query);
             return result;
         }

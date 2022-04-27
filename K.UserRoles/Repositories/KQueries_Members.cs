@@ -5,14 +5,17 @@ namespace K.UserRoles.Repositories
 
     public class KQueries_Access
     {
-        public string GetAllQuery { get => @"SELECT `k`.`id`             `Id`
-                                                , `ka`.`roleInOrg_id`	 `RoleId`
-                                                , `k`.`name`             `Name`
+        public string GetAllQuery { get => @"SELECT `ka`.`id`            `Id`
+                                               , `ka`.`roleInOrg_id`	 `RoleId`
+                                               , `k`.`name`             `Name`
                                                 , `k`.`description`      `Description`
+                                                , `k`.`id`               `GenericAccesId`
+                                                , rio.orgn_id            `OrgId`
                                             FROM `KAccess` `k`
                                             INNER JOIN `KAccessInRole` `ka` on `k`.`id` = `ka`.`access_id`
+                                            INNER JOIN KRoleInOrg rio on rio.role_id = ka.roleInOrg_id
                                             "; }
-        public string InsertQuery { get; internal set; }
+        public string InsertQuery { get => "INSERT INTO `KAccessInRole` ( `roleInOrg_id`, `access_id`) VALUES ( @RoleId, @GenericAccesId)"; }
         public string UpdateQuery { get; internal set; }
     }
 

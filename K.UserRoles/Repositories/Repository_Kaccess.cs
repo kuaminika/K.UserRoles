@@ -30,7 +30,7 @@ namespace K.UserRoles.Repositories
         {
            string query =  queryHolder.GetAllQuery;
 
-            List<KAccess_recorded> rawRecords = dbGateway.ExecuteReadTransaction (query, new KAccess_recorded());
+            List<KAccess_recorded> rawRecords = dbGateway.ExecuteReadTransaction (query, new KAccess_recorded() { OrgId =org_id});
             List<IKAccess> result = rawRecords.ConvertAll(new Converter<KAccess_recorded, IKAccess>(p => p));
 
             return result;
@@ -51,11 +51,35 @@ namespace K.UserRoles.Repositories
             return result[0];
         }
 
+        /// <summary>
+        /// This will add access to an existing role. 
+        /// </summary>
+        /// <param name="newRecord"></param>
+        /// <returns></returns>
         public IKAccess Record(IKAccess newRecord)
         {
-            KAccess_recorded newAccess = (KAccess_recorded)newRecord;
+
+            KAccess_recorded newAccess = ensureType(newRecord);
+
+            string genericAccessQuery = @"SELECT 
+                                           `k`.`name`             `Name`
+                                         , `k`.`description`      `Description`
+                                         , `k`.`id`               `GenericAccesId`
+                                        from KAccess k where `name`= @Name and `description`= @Description";
+
+            var rawList = dbGateway.ExecuteReadTransaction(genericAccessQuery, newAccess);
+            if (rawList.Count == 0)
+            {
+                string insertGenericAccessQuery = "INSERT INTO `KAccess` (  `name`, `description`) VALUES ( @Name, @Description)";
+                newAccess.GenericAccesId = dbGateway.ExecuteInsertTransaction(insertGenericAccessQuery, newAccess);
+
+            }
+            else
+                newAccess.GenericAccesId = rawList[0].GenericAccesId;
+           
+
             string insertQeury = queryHolder.InsertQuery;
-           newAccess.Id =  dbGateway.ExecuteInsertTransaction(insertQeury, newAccess);
+            newAccess.Id =  dbGateway.ExecuteInsertTransaction(insertQeury, newAccess);
 
             return newAccess;
         }
